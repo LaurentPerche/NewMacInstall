@@ -2,7 +2,7 @@
 # Setup script for setting up a new macos machine
 
 echo "*********************************************************************"
-echo "Starting Automated MAC Setup v1.1"
+echo "Starting Automated MAC Setup v1.2"
 echo 'You should be and up and running in a few minutes.'
 echo "*********************************************************************"
 echo "Before starting & if you are migrating from a previous Laptop"
@@ -264,7 +264,7 @@ CASKS=(
 #    google-backup-and-sync
 #    google-chrome
     google-earth-pro
-    hand-mirror
+#    hand-mirror
     imageoptim
     integrity
     mediainfo
@@ -481,8 +481,6 @@ for app in "Activity Monitor" \
 	"Dock" \
 	"Finder" \
 	"Google Chrome Canary" \
-#	"Google Chrome" \
-	"Mail" \
 	"Messages" \
 	"Opera" \
 	"Photos" \
