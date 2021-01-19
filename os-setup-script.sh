@@ -10,7 +10,9 @@ echo "Make sure you have a backup of your config files from previous Laptop"
 echo "To do so run the following command on previous laptop"
 echo "> brew install mackup"
 echo "> mackup backup"
-read -p "Have you done the backup & wish to continue?(yes)"
+echo "*********************************************************************"
+echo ""
+read -p "Have you done the backup yet & wish to continue?(yes)"
 if [ "$REPLY" != "yes" ]; then
    exit
 fi
@@ -151,8 +153,10 @@ PACKAGES=(
     xmlto
     xz
     youtube-dl
-    zsh
     zsh-completions
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+
 )
 echo "Installing packages..."
 brew install ${PACKAGES[@]}
@@ -275,7 +279,7 @@ CASKS=(
     pdf-expert
     purevpn
     skype
-    slack
+#    slack
 #    station
     the-unarchiver
     transmit
