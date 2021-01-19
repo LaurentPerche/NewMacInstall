@@ -1,2 +1,2 @@
 # NewMacInstall
-Brand New Install Catalina 
+Brand New MacOS Install
