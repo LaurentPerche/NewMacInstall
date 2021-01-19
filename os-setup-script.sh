@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 # Setup script for setting up a new macos machine
 
-echo "Starting setup"
+echo "*********************************************************************"
+echo "Starting Automated MAC Setup v1.1"
+echo 'You should be and up and running in a few minutes.'
+echo "*********************************************************************"
+echo "Current shell: $SHELL."
+echo "macOS version:"
+sw_vers
+echo "Mac model:"
+sysctl hw.model
+echo "*********************************************************************"
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -22,10 +31,21 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Check for Homebrew to be present, install if it's missing
 if test ! $(which brew); then
+    echo "*********************************************************************"
     echo "Installing homebrew..."
+    echo "*********************************************************************"
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
-
+echo "Verifying the Homebrew installation..."
+if brew doctor; then
+  echo "Your Homebrew installation is good to go."
+else
+  echo "Your Homebrew installation reported some errors or warnings."
+  echo "Review the Homebrew messages to see if any action is needed."
+fi
+echo "*********************************************************************"
+echo "Update Homebrew Packages/Recipes"
+echo "*********************************************************************"
 # Update homebrew recipes
 brew update
 
@@ -33,7 +53,7 @@ PACKAGES=(
     git
     tmux
     bat
-    macvim
+#    macvim
     mysql
     fzf
     ctags
@@ -43,11 +63,11 @@ PACKAGES=(
     bind
     bluetoothconnector
     cairo
-    cmake
+#    cmake
     coreutils
     docbook
     docbook-xsl
-    doxygen
+#    doxygen
     fontconfig
     freetype
     gdbm
@@ -88,7 +108,7 @@ PACKAGES=(
     luarocks
     lzo
     mackup
-    macprefs
+#    macprefs
     mtr
     ncurses
     nettle
@@ -148,7 +168,9 @@ brew cleanup
 
 # ruby install
 ruby-install ruby 2.5.5
+echo "*********************************************************************"
 echo "Installing Ruby gems"
+echo "*********************************************************************"
 RUBY_GEMS=(
     bundler
     bigdecimal
@@ -207,8 +229,9 @@ RUBY_GEMS=(
     # Brew Casks                                                                  #
     ###############################################################################
 
-
-    echo "Installing cask..."
+    echo "*********************************************************************"
+    echo "Installing Brew Cask..."
+    echo "*********************************************************************"
 CASKS=(
     1password
     adobe-acrobat-reader
@@ -219,17 +242,18 @@ CASKS=(
     battery-guardian
     bettertouchtool
     bitbar
-    blue-jeans
-    boom-3d
+    bluejeans
+#    boom-3d
     box-drive
     charles
     cleanmymac
     dropbox
     droplr
-    firefox
+    ferdi
+#    firefox
     gas-mask
-    google-backup-and-sync
-    google-chrome
+#    google-backup-and-sync
+#    google-chrome
     google-earth-pro
     hand-mirror
     imageoptim
@@ -243,7 +267,7 @@ CASKS=(
     purevpn
     skype
     slack
-    station
+#    station
     the-unarchiver
     transmit
     vlc
@@ -252,8 +276,11 @@ CASKS=(
     zoom
     webex-meetings
 )
+echo "*********************************************************************"
 echo "Installing cask apps..."
-brew cask install ${CASKS[@]}
+echo "*********************************************************************"
+brew install --cask ${CASKS[@]}
+echo "*********************************************************************"
 
 echo "Configuring OS..."
 
@@ -292,7 +319,7 @@ defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryCli
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
 # Increase sound quality for Bluetooth headphones/headsets
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+#defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
@@ -310,51 +337,51 @@ defaults write NSGlobalDomain AppleMetricUnits -bool true
 ###############################################################################
 
 # Enable lid wakeup
-sudo pmset -a lidwake 1
+#sudo pmset -a lidwake 1
 
 # Restart automatically on power loss
-sudo pmset -a autorestart 1
+#sudo pmset -a autorestart 1
 
 # Restart automatically if the computer freezes
-sudo systemsetup -setrestartfreeze on
+#sudo systemsetup -setrestartfreeze on
 
 # Sleep the display after 15 minutes
-sudo pmset -a displaysleep 15
+#sudo pmset -a displaysleep 15
 
 # Disable machine sleep while charging
-sudo pmset -c sleep 0
+#sudo pmset -c sleep 0
 
 # Set machine sleep to 5 minutes on battery
-sudo pmset -b sleep 5
+#sudo pmset -b sleep 5
 
 # Set standby delay to 24 hours (default is 1 hour)
-sudo pmset -a standbydelay 86400
+#sudo pmset -a standbydelay 86400
 
 # Never go into computer sleep mode
-sudo systemsetup -setcomputersleep Off > /dev/null
+#sudo systemsetup -setcomputersleep Off > /dev/null
 
 # Hibernation mode
 # 0: Disable hibernation (speeds up entering sleep mode)
 # 3: Copy RAM to disk so the system state can still be restored in case of a
 #    power failure.
-sudo pmset -a hibernatemode 0
+#sudo pmset -a hibernatemode 0
 
 # Remove the sleep image file to save disk space
-sudo rm /private/var/vm/sleepimage
+#sudo rm /private/var/vm/sleepimage
 # Create a zero-byte file instead…
-sudo touch /private/var/vm/sleepimage
+#sudo touch /private/var/vm/sleepimage
 # …and make sure it can’t be rewritten
-sudo chflags uchg /private/var/vm/sleepimage
+#sudo chflags uchg /private/var/vm/sleepimage
 
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
 
 # Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+#defaults write com.apple.screensaver askForPassword -int 1
+#defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-# Save screenshots to the desktop
+# Save screenshots to the Dowloads Folder
 defaults write com.apple.screencapture location -string "${HOME}/Downloads"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
@@ -365,7 +392,7 @@ defaults write com.apple.screencapture disable-shadow -bool true
 
 # Enable subpixel font rendering on non-Apple LCDs
 # Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
-defaults write NSGlobalDomain AppleFontSmoothing -int 1
+#defaults write NSGlobalDomain AppleFontSmoothing -int 1
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
@@ -386,8 +413,8 @@ defaults write com.apple.dock show-process-indicators -bool true
 #defaults write com.apple.dock static-only -bool true
 
 # Top right screen corner → ScreenSaver
-defaults write com.apple.dock wvous-tr-corner -int 5
-defaults write com.apple.dock wvous-tr-modifier -int 0
+#defaults write com.apple.dock wvous-tr-corner -int 5
+#efaults write com.apple.dock wvous-tr-modifier -int 0
 
 ###############################################################################
 # Mac App Store                                                               #
@@ -469,4 +496,3 @@ echo "Manual Install: https://github.com/gabriellorin/touch-bar-emojis"
 echo "Manual Install: https://touch-bar-timer.alexzirbel.com/"
 echo "Manual Install: https://rockysandstudio.com/"
 echo "Manual Install: https://shortmenu.com/mac/"
-
