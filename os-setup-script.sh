@@ -5,13 +5,22 @@ echo "*********************************************************************"
 echo "Starting Automated MAC Setup v1.1"
 echo 'You should be and up and running in a few minutes.'
 echo "*********************************************************************"
+echo "Before starting & if you are migrating from a previous Laptop"
+echo "Make sure you have a backup of your config files from previous Laptop"
+echo "To do so run the following command on previous laptop"
+echo "> brew install mackup"
+echo "> mackup backup"
+read -p "Have you done the backup & wish to continue?(yes)"
+if [ "$REPLY" != "yes" ]; then
+   exit
+fi
 echo "Current shell: $SHELL."
 echo "macOS version:"
 sw_vers
 echo "Mac model:"
 sysctl hw.model
 echo "*********************************************************************"
-
+echo "Please enter your Mac Password to proceed with Setup"
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
@@ -472,7 +481,7 @@ for app in "Activity Monitor" \
 	"Dock" \
 	"Finder" \
 	"Google Chrome Canary" \
-	"Google Chrome" \
+#	"Google Chrome" \
 	"Mail" \
 	"Messages" \
 	"Opera" \
@@ -489,10 +498,26 @@ for app in "Activity Monitor" \
 	killall "${app}" &> /dev/null
 done
 
+#https://github.com/romkatv/powerlevel10k
+echo "*********************************************************************"
+echo "Installing Powerlevel10k"
+echo "*********************************************************************"
+brew install romkatv/powerlevel10k/powerlevel10k
+echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
+echo "*********************************************************************"
+echo "Mackup Restore Config Files..."
+mackup restore
+echo "*********************************************************************"
 echo "Macbook setup completed!"
-echo "Done. Note that some of these changes require a logout/restart to take effect."
-
+echo "*********************************************************************"
 echo "Manual Install: https://github.com/gabriellorin/touch-bar-emojis"
 echo "Manual Install: https://touch-bar-timer.alexzirbel.com/"
 echo "Manual Install: https://rockysandstudio.com/"
 echo "Manual Install: https://shortmenu.com/mac/"
+echo "*********************************************************************"
+echo "Note that some of the changes require a logout/restart to take effect."
+read -p "Do you want to reboot now?(yes)"
+if [ "$REPLY" != "yes" ]; then
+   exit
+fi
+sudo shutdown -r now
